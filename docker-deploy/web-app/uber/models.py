@@ -7,7 +7,7 @@ from django.utils import timezone
 
 class RequestRide(models.Model):
     address = models.CharField(max_length=50)
-    pub_date = models.DateTimeField('date published')
+    pub_date = models.DateTimeField(default=timezone.now)
     def __str__(self):
         return self.address
     #def was_published_recently(self):

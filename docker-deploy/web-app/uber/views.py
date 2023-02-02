@@ -22,7 +22,7 @@ def selection(request):
 
 def requestRide(request):
     model=RequestRide
-    form = forms.RequestForm()
+    form = forms.RequestForm(request.POST)
     #fields = ['address']
     print("print\n")
     if form.is_valid():
