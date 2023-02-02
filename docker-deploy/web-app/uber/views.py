@@ -30,7 +30,10 @@ def requestRide(request):
             r = Ride(address=form.cleaned_data['address'], 
                     date_published=timezone.now(),
                     arrival_date = form.cleaned_data['arrival_date'],
-                    number_of_passengers=form.cleaned_data['number_of_passengers'], 
+                    arrival_time = form.cleaned_data['arrival_time'],
+                    number_of_passengers=form.cleaned_data['number_of_passengers'],
+                    owner=request.user, 
+                    can_be_shared=form.cleaned_data['can_be_shared'],
                     )
             r.save()
             return render(request, 'home.html')

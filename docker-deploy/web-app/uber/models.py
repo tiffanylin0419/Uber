@@ -3,17 +3,18 @@ from django.db import models
 # Create your models here.
 import datetime
 from django.utils import timezone
-
+from django.contrib.auth.models import User
 
 class Ride(models.Model):
     date_published = models.DateTimeField()
     address = models.CharField(max_length=50,default="")
     arrival_date=models.DateField(default=timezone.now)
+    arrival_time=models.TimeField(default=timezone.now)
     number_of_passengers=models.IntegerField(default=1)
-    #owner_id=
+    owner= models.ForeignKey(User, on_delete=models.CASCADE, null=True, default=None)
     #vehicle #(optional)
     #sharer_id
-    #canShare
+    can_be_shared=models.BooleanField(default=False)
     #driver_id
     #isConfirmed
     #request(optional)
@@ -27,8 +28,9 @@ class Ride(models.Model):
 '''
 class DriverInfo(models.Model):
     user_id
-    vehicle
-    
+    maximum_number_of_passenger
+    vehicle_type
+    license plate
 
 '''
 '''
