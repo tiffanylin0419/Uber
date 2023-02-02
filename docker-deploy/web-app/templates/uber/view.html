@@ -6,8 +6,16 @@
 {% block content %}
   <h2>View Ride</h2>
   <p><a href="{% url 'home' %}">Home</a></p>
-    {{ride}}
+    address: {{ride.address}}<p>
+    arrival time: {{ride.arrival_date}}{{arrival_time}}<p>
+    number of passenger: {{ride.number_of_passengers}}<p>
+    owner: {{ride.owner}}<p>
+    can be shared: {{ride.can_be_shared}}<p>
+    vehicletype: {{ride.vehicle_type}}<p>
+    special request: {{ride.special_request}}<p>
 
   <p><a href="{% url 'logout' %}">Log Out</a></p>
 
 {% endblock %}
+
+

@@ -18,6 +18,9 @@ class Ride(models.Model):
     #sharer
     #driver
     #isConfirmed
+    #isCompete
+
+
     def __str__(self):
         return self.address
     #def was_published_recently(self):
