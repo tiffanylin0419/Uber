@@ -15,8 +15,10 @@ class Ride(models.Model):
     can_be_shared=models.BooleanField(default=False)
     vehicle_type= models.CharField(max_length=5,default="a")#op
     special_request=models.CharField(max_length=100, blank=True, null = True, default="")#op
+    #email
     #sharer
     #driver
+    
     #isConfirmed
     def __str__(self):
         return self.address
