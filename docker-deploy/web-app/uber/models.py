@@ -12,18 +12,19 @@ class Ride(models.Model):
     arrival_time=models.TimeField(default=timezone.now)
     number_of_passengers=models.IntegerField(default=1)
     owner= models.ForeignKey(User, on_delete=models.CASCADE, null=True, default=None)
-    #vehicle #(optional)
     #sharer_id
     can_be_shared=models.BooleanField(default=False)
+    vehicle_type= models.CharField(max_length=50,default="a")#op
     #driver_id
     #isConfirmed
-    #request(optional)
+    special_request=models.CharField(max_length=100, blank=True, null = True, default="")#op
 
     
     def __str__(self):
         return self.address
     #def was_published_recently(self):
     #    return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
+
 
 '''
 class DriverInfo(models.Model):

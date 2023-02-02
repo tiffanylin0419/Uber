@@ -21,7 +21,6 @@ def selection(request):
     return HttpResponse("Select a ride")
 
 def requestRide(request):
-    model=Ride
     form = forms.RequestForm(request.POST)
     #fields = ['address']
     if request.method == 'POST':
@@ -34,6 +33,7 @@ def requestRide(request):
                     number_of_passengers=form.cleaned_data['number_of_passengers'],
                     owner=request.user, 
                     can_be_shared=form.cleaned_data['can_be_shared'],
+                    special_request=form.cleaned_data['special_request'],
                     )
             r.save()
             return render(request, 'home.html')
