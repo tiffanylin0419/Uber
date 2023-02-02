@@ -1,5 +1,4 @@
 from django import forms
-from .models import Ride
 
 VEHICLES = [
         ('a', 'All'),
@@ -21,3 +20,8 @@ class RequestForm(forms.Form):
     can_be_shared = forms.BooleanField(required=False)
     vehicle_type = forms.ChoiceField(choices=VEHICLES)
     special_request = forms.CharField(max_length=100,required=False)
+
+class DriverForm(forms.Form):
+    maximum_number_of_passenger=forms.ChoiceField(choices=NUM)
+    vehicle_type = forms.ChoiceField(choices=VEHICLES[1:])
+    license_plate= forms.CharField(max_length=20)

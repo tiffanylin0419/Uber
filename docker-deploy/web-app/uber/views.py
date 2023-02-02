@@ -1,5 +1,5 @@
 from . import forms
-from .models import Ride
+from .models import Ride,DriverInfo
 from django.shortcuts import render
 from django.utils import timezone
 
@@ -15,10 +15,21 @@ def index(request):#delete
     return HttpResponse("Hello, world. You're at the polls index.")
 
 def registration(request):
-    return HttpResponse("Driver registration")
+    form = forms.DriverForm(request.POST)
+    if request.method == 'POST':
+        if form.is_valid():
+            r = DriverInfo(driver=request.user, 
+                    maximum_number_of_passenger=form.cleaned_data['maximum_number_of_passenger'],
+                    vehicle_type=form.cleaned_data['vehicle_type'],
+                    license_plate=form.cleaned_data['license_plate'],
+                    )
+            r.save()
+            return render(request, 'home.html')
+    return render(request, 'uber/request.html', locals())
 
 def view(request):
-    return HttpResponse("View a ride")
+    form = forms.DriverForm(request.POST)
+
 
 def requestRide(request):
     form = forms.RequestForm(request.POST)
