@@ -53,7 +53,9 @@ def personal(request):
 
 
 def myrides(request):
-    data=Ride.objects.filter(owner=request.user)
+    data1=Ride.objects.filter(owner=request.user ,isConfirmed=False)
+    data2=Ride.objects.filter(owner=request.user ,isConfirmed=True,isComplete=False)
+    data3=Ride.objects.filter(owner=request.user ,isComplete=True)
 
     return render(request, 'uber/myrides.html', locals())
 

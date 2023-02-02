@@ -32,9 +32,10 @@ class DriverForm(forms.Form):
 class RequestUpdateForm(forms.ModelForm):
     class Meta:
         model = Ride
-        exclude = ('date_published','owner','isConfirmed')
-
+        exclude = ('date_published','owner','isConfirmed','isComplete')
+'''
 class DriverUpdateForm(forms.ModelForm):
     class Meta:
         model = Ride
         exclude = ('date_published','owner',)
+'''

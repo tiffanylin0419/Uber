@@ -16,10 +16,10 @@ class Ride(models.Model):
     vehicle_type= models.CharField(max_length=5,default="All")#op
     special_request=models.CharField(max_length=100, blank=True, null = True, default="")#op
     isConfirmed=models.BooleanField(default=False)
-    #email
+    isComplete=models.BooleanField(default=False)
     #sharer
     #driver
-    #isCompete
+
 
 
     def __str__(self):
