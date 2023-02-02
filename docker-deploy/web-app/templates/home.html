@@ -5,14 +5,14 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-  Hi {{ user.username }}!<br />
+  Hi {{ user.username }}!<br /><br>
+
   <p><a href="{% url 'registration' %}">Driver registration</a></p>
-  <p><a href="{% url 'selection' %}">Select a ride</a></p>
   <p><a href="{% url 'request' %}">Request a ride</a></p>
-  <p><a href="{% url 'edit' %}">Edit a requested ride</a></p>
-  <p><a href="{% url 'view' %}">View ride status</a></p>
   <p><a href="{% url 'search' %}">Search for a ride</a></p>
-  <p><a href="{% url 'logout' %}">Log Out</a></p>
+  <p><a href="{% url 'myrides' %}">My rides</a></p>
+  
+  <br><p><a href="{% url 'logout' %}">Log Out</a></p>
 
  
 

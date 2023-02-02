@@ -17,8 +17,8 @@ def index(request):#delete
 def registration(request):
     return HttpResponse("Driver registration")
 
-def selection(request):
-    return HttpResponse("Select a ride")
+def view(request):
+    return HttpResponse("View a ride")
 
 def requestRide(request):
     form = forms.RequestForm(request.POST)
@@ -41,10 +41,10 @@ def requestRide(request):
 
 
 def edit(request):
-    return HttpResponse("Edit a requested ride")
+    return HttpResponse("Edit")
 
-def view(request):
-    return HttpResponse("View ride status")
+def myrides(request):
+    return render(request, 'uber/myrides.html')
 
 def search(request):
     return HttpResponse("Search for a ride")

@@ -1,0 +1,15 @@
+<!-- templates/registration/signup.html -->
+{% extends "base.html" %}
+
+{% block title %}MyRides{% endblock %}
+
+{% block content %}
+  <h2>My Rides</h2>
+  <p><a href="{% url 'home' %}">Home</a></p>
+
+  <p><a href="{% url 'edit' %}">Edit</a></p>
+  <p><a href="{% url 'view' %}">View</a></p>
+  
+  <p><a href="{% url 'logout' %}">Log Out</a></p>
+
+{% endblock %}
