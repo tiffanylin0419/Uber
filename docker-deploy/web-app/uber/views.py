@@ -16,7 +16,7 @@ def index(request):#delete
 
 
 def requestRide(request):
-    form = forms.RequestForm(request.POST)
+    form = forms.RequestForm(request.POST or None)
     #fields = ['address']
     if request.method == 'POST':
         if form.is_valid():
@@ -35,7 +35,7 @@ def requestRide(request):
     return render(request, 'uber/request.html', locals())
 
 def registration(request):
-    form = forms.DriverForm(request.POST)
+    form = forms.DriverForm(request.POST or None)
     if request.method == 'POST':
         if form.is_valid():
             r = DriverInfo(driver=request.user, 
@@ -54,17 +54,20 @@ def personal(request):
 
 def myrides(request):
     data=Ride.objects.filter(owner=request.user)
-    print(Ride.objects.filter(owner=request.user))
 
     return render(request, 'uber/myrides.html', locals())
 
 def view(request,ride_id):
     ride=Ride.objects.get(pk=ride_id)
-    #form = forms.DriverForm(request.POST)
     return render(request, 'uber/view.html', locals())
 
-def edit(request):
-    return HttpResponse("Edit")
+def update(request,ride_id):
+    ride=Ride.objects.get(pk=ride_id)
+    form = forms.RequestUpdateForm(request.POST or None,instance=ride)
+    if form.is_valid():
+        form.save()
+        return render(request, 'home.html')
+    return render(request, 'uber/update.html', locals())
 
 
 

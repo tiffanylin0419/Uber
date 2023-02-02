@@ -8,8 +8,8 @@ urlpatterns = [
     path('registration/', views.registration, name='registration'),
     path('myrides/', views.myrides, name='myrides'),
     path('view/<ride_id>', views.view, name='view'),
+    path('update/<ride_id>', views.update, name='update'),
     path('request/', views.requestRide, name='request'),
-    path('edit/', views.edit, name='edit'),
     
     path('search/', views.search, name='search'),
     path('personal/', views.personal, name='personal'),

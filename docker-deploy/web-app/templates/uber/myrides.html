@@ -9,9 +9,8 @@
 
   {% for ride in data%}
 
-  <a href="{% url 'view'  ride.id  %}">{{ride}}</a><br>
+  <a href="{% url 'view'  ride.id  %}">{{ride}}</a>   <a href="{% url 'update'  ride.id  %}"> - Update</a><br>
   {% endfor%}
-  <p><a href="{% url 'edit' %}">Edit</a></p>
   
   <p><a href="{% url 'logout' %}">Log Out</a></p>
 

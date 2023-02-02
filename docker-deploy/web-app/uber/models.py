@@ -13,11 +13,12 @@ class Ride(models.Model):
     number_of_passengers=models.IntegerField(default=1)
     owner= models.ForeignKey(User, on_delete=models.CASCADE, null=True, default=None)
     can_be_shared=models.BooleanField(default=False)
-    vehicle_type= models.CharField(max_length=5,default="a")#op
+    vehicle_type= models.CharField(max_length=5,default="All")#op
     special_request=models.CharField(max_length=100, blank=True, null = True, default="")#op
+    isConfirmed=models.BooleanField(default=False)
+    #email
     #sharer
     #driver
-    #isConfirmed
     #isCompete
 
 
