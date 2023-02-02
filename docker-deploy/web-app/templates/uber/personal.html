@@ -1,0 +1,16 @@
+<!-- templates/registration/signup.html -->
+{% extends "base.html" %}
+
+{% block title %}PersonalInfo{% endblock %}
+
+{% block content %}
+  <h2>Personal Info (Driver Only)</h2>
+ 
+  <p><a href="{% url 'home' %}">Home</a></p>
+  <p><a>Maximum Number Of Passengers: {{mnop}}</a></p>
+    <p><a>Vehicle Type: {{vt}}</a></p>
+    <p><a>License Plate: {{lp}}</a></p>
+
+  <p><a href="{% url 'logout' %}">Log Out</a></p>
+
+{% endblock %}

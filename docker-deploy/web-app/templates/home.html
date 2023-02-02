@@ -6,7 +6,7 @@
 {% block content %}
 {% if user.is_authenticated %}
   Hi {{ user.username }}!<br /><br>
-
+  <p><a href="{% url 'personal' %}">Personal Info (Driver Only)</a></p>
   <p><a href="{% url 'registration' %}">Driver registration</a></p>
   <p><a href="{% url 'request' %}">Request a ride</a></p>
   <p><a href="{% url 'search' %}">Search for a ride</a></p>

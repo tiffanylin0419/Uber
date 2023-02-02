@@ -50,6 +50,15 @@ def requestRide(request):
             return render(request, 'home.html')
     return render(request, 'uber/request.html', locals())
 
+def personal(request):
+    data=DriverInfo.objects.filter(driver=request.user)
+    if data:
+        mnop=data[0].maximum_number_of_passenger
+        vt=data[0].vehicle_type
+        lp=data[0].license_plate
+        return render(request, 'uber/personal.html', locals())
+    return render(request, 'home.html')
+
 
 def edit(request):
     return HttpResponse("Edit")
