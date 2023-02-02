@@ -1,5 +1,5 @@
 from . import forms
-from .models import RequestRide
+from .models import Ride
 from django.shortcuts import render
 from django.utils import timezone
 
@@ -21,13 +21,17 @@ def selection(request):
     return HttpResponse("Select a ride")
 
 def requestRide(request):
-    model=RequestRide
+    model=Ride
     form = forms.RequestForm(request.POST)
     #fields = ['address']
     if request.method == 'POST':
         if form.is_valid():
             print("form is valid")
-            r = RequestRide(address=form.cleaned_data['address'], pub_date=timezone.now())
+            r = Ride(address=form.cleaned_data['address'], 
+                    date_published=timezone.now(),
+                    arrival_date = form.cleaned_data['arrival_date'],
+                    number_of_passengers=form.cleaned_data['number_of_passengers'], 
+                    )
             r.save()
             return render(request, 'home.html')
     return render(request, 'uber/request.html', locals())

@@ -1,7 +1,6 @@
 from django.contrib import admin
 
 # Register your models here.
-from uber.models import RequestRide
+from uber.models import Ride
 
-#admin.site.register(Question)
-admin.site.register(RequestRide)
+admin.site.register(Ride)
