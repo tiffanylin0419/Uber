@@ -9,7 +9,9 @@
 
   <h3>Open Rides</h3>
   {% for ride in data1%}
-  <a href="{% url 'view_d'  ride.id  %}">{{ride}}</a>  <a href="{% url 'update'  ride.id  %}"> - Update</a><br>
+  <a href="{% url 'view_d'  ride.id  %}">{{ride}}</a> 
+   <a href="{% url 'update'  ride.id  %}"> - Update</a>
+   <a href="{% url 'owner_delete'  ride.id  %}"> - Delete</a><br>
   {% endfor%}
   
   <h3>Confirmed Rides</h3>

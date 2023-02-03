@@ -109,16 +109,25 @@ def search_driver(request):
     else:
         return render(request, 'home.html')
 
+def search_rider(request):
+    data=Ride.objects.filter(~Q(owner=request.user),
+                            isConfirmed=False,
+                            isComplete=False, 
+                            can_be_shared=True,)
+    return render(request, 'uber/search_rider.html', locals())
+
 def driver_book(request,ride_id):
     person=DriverInfo.objects.filter(driver=request.user)[0]
     ride=Ride.objects.get(pk=ride_id)
     ride.isConfirmed=True
-    ride.vehicle_type=person.vehicle_type
-    person=DriverInfo.objects.filter(driver=request.user)[0]
     ride.driver=person
     ride.save()
     return HttpResponse("Ride booked.")
 
+def owner_delete(request,ride_id):
+    ride=Ride.objects.get(pk=ride_id)
+    ride.delete()
+    return HttpResponse("Ride deleted.")
 
 def driver_finish(request,ride_id):
     ride=Ride.objects.get(pk=ride_id)

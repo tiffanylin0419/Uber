@@ -4,10 +4,10 @@
 {% block title %}Ride Search{% endblock %}
 
 {% block content %}
-  <h2>Ride Search for Rider</h2>
+  <h2>Ride Search for Driver</h2>
   <p><a href="{% url 'home' %}">Home</a></p>
   {% for ride in data%}
-  <a href="{% url 'view'  ride.id  %}">{{ride}}</a> - <a href="{% url 'driver_book'  ride.id %}"> Book Ride</a> <br>
+  <a href="{% url 'view'  ride.id  %}">{{ride}}</a> <br>
   {% endfor%}
 
 

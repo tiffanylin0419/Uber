@@ -19,7 +19,10 @@ urlpatterns = [
     path('myrides_driver/', views.myrides_driver, name='myrides_driver'),
 
     path('search_driver/', views.search_driver, name='search_driver'),
+    path('search_rider/', views.search_rider, name='search_rider'),
+
     path('driver_book/<ride_id>', views.driver_book, name='driver_book'),
+    path('owner_delete/<ride_id>', views.owner_delete, name='owner_delete'),
     path('driver_finish/<ride_id>', views.driver_finish, name='driver_finish'),
     
     
