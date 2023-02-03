@@ -15,6 +15,6 @@ urlpatterns = [
     path('view/<ride_id>', views.view, name='view'),
     path('update/<ride_id>', views.update, name='update'),
 
-    path('search/', views.search, name='search'),
+    path('driver_search/', views.driver_search, name='driver_search'),
     
 ]

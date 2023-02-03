@@ -49,8 +49,12 @@ def registration(request):
 
 
 def personal(request):
-    person=DriverInfo.objects.get(driver=request.user)
-    return render(request, 'uber/personal.html', locals())
+    persons=DriverInfo.objects.filter(driver=request.user)
+    if persons:
+        person=persons[0]
+        return render(request, 'uber/personal.html', locals())
+    else:
+        return render(request, 'home.html')
 
 def personUpdate(request):
     person=DriverInfo.objects.get(driver=request.user)
@@ -81,5 +85,6 @@ def update(request,ride_id):
 
 
 
-def search(request):
+def driver_search(request):
+    
     return HttpResponse("Search for a ride")
