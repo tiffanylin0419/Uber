@@ -1,0 +1,22 @@
+<!-- templates/registration/signup.html -->
+{% extends "base.html" %}
+
+{% block title %}MyRides{% endblock %}
+
+{% block content %}
+  <h2>My Rides</h2>
+  <p><a href="{% url 'home' %}">Home</a></p>
+
+  <h3>Confirmed Rides</h3>
+  {% for ride in data1%}
+  <a href="{% url 'view_d'  ride.id  %}">{{ride}}</a> - <a href="{% url 'driver_finish'  ride.id  %}">Finish</a><br>
+  {% endfor%}
+  
+  <h3>Finished Rides</h3>
+  {% for ride in data2%}
+  <a href="{% url 'view_d'  ride.id  %}">{{ride}}</a>  <br>
+  {% endfor%}
+
+
+
+{% endblock %}

@@ -73,10 +73,10 @@ def myrides_rider(request):
     return render(request, 'uber/myrides_rider.html', locals())
 
 def myrides_driver(request):
-    data1=Ride.objects.filter(driver=request.user ,isComplete=True)
-    data2=Ride.objects.filter(driver=request.user ,isComplete=False)
+    data1=Ride.objects.filter(driver=request.user ,isComplete=False)
+    data2=Ride.objects.filter(driver=request.user ,isComplete=True)
 
-    return render(request, 'uber/myrides_rider.html', locals())
+    return render(request, 'uber/myrides_driver.html', locals())
 
 def view(request,ride_id):
     ride=Ride.objects.get(pk=ride_id)
@@ -118,4 +118,11 @@ def driver_book(request,ride_id):
     ride.license_plate=person.license_plate
     ride.driver=request.user
     ride.save()
-    return HttpResponse("Ride successfully booked.")
+    return HttpResponse("Ride booked.")
+
+
+def driver_finish(request,ride_id):
+    ride=Ride.objects.get(pk=ride_id)
+    ride.isComplete=True
+    ride.save()
+    return HttpResponse("Ride finished.")
