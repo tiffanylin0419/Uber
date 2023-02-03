@@ -20,8 +20,6 @@ class Ride(models.Model):
     #sharer
     #driver
 
-
-
     def __str__(self):
         return self.address
     #def was_published_recently(self):
