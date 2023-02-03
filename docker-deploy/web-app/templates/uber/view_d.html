@@ -6,19 +6,20 @@
 {% block content %}
   <h2>View Ride</h2>
   <p><a href="{% url 'home' %}">Home</a></p>
+    owner: {{ride.owner}}<p>
     address: {{ride.address}}<p>
     arrival time: {{ride.arrival_time}}     {{ride.arrival_date}}<p>
     number of passenger: {{ride.number_of_passengers}}<p>
     owner: {{ride.owner}}<p>
     can be shared: {{ride.can_be_shared}}<p>
+    vehicletype: {{ride.vehicle_type}}<p>
     special request: {{ride.special_request}}<p>
     
     <h3>Driver Info</h3><p>
-    vehicle type: {{ride.vehicle_type}}<p>
-    license plate: {{ride.license_plate}}<p>
+    driver: {{ride.driver.driver}}<p>
+    vehicle type: {{ride.driver.vehicle_type}}<p>
+    license plate: {{ride.driver.license_plate}}<p>
     
-
-
   <p><a href="{% url 'logout' %}">Log Out</a></p>
 
 {% endblock %}

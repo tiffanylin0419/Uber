@@ -18,7 +18,7 @@ urlpatterns = [
 
     path('myrides_driver/', views.myrides_driver, name='myrides_driver'),
 
-    path('driver_search/', views.driver_search, name='driver_search'),
+    path('search_driver/', views.search_driver, name='search_driver'),
     path('driver_book/<ride_id>', views.driver_book, name='driver_book'),
     path('driver_finish/<ride_id>', views.driver_finish, name='driver_finish'),
     

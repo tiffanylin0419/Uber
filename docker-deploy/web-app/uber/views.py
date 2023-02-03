@@ -18,7 +18,6 @@ def index(request):#delete
 
 def requestRide(request):
     form = forms.RequestForm(request.POST or None)
-    #fields = ['address']
     if request.method == 'POST':
         if form.is_valid():
             print("form is valid")
@@ -73,8 +72,8 @@ def myrides_rider(request):
     return render(request, 'uber/myrides_rider.html', locals())
 
 def myrides_driver(request):
-    data1=Ride.objects.filter(driver=request.user ,isComplete=False)
-    data2=Ride.objects.filter(driver=request.user ,isComplete=True)
+    data1=Ride.objects.filter(driver__driver=request.user ,isComplete=False)
+    data2=Ride.objects.filter(driver__driver=request.user ,isComplete=True)
 
     return render(request, 'uber/myrides_driver.html', locals())
 
@@ -96,7 +95,7 @@ def update(request,ride_id):
 
 
 
-def driver_search(request):
+def search_driver(request):
     persons=DriverInfo.objects.filter(driver=request.user)
     if persons:
         person=persons[0]
@@ -106,7 +105,7 @@ def driver_search(request):
                                 isComplete=False, 
                                 number_of_passengers__lt=person.maximum_number_of_passenger,
                                 )
-        return render(request, 'uber/driver_search.html', locals())
+        return render(request, 'uber/search_driver.html', locals())
     else:
         return render(request, 'home.html')
 
@@ -115,8 +114,8 @@ def driver_book(request,ride_id):
     ride=Ride.objects.get(pk=ride_id)
     ride.isConfirmed=True
     ride.vehicle_type=person.vehicle_type
-    ride.license_plate=person.license_plate
-    ride.driver=request.user
+    person=DriverInfo.objects.filter(driver=request.user)[0]
+    ride.driver=person
     ride.save()
     return HttpResponse("Ride booked.")
 

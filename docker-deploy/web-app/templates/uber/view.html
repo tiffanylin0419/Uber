@@ -6,6 +6,7 @@
 {% block content %}
   <h2>View Ride</h2>
   <p><a href="{% url 'home' %}">Home</a></p>
+    owner: {{ride.owner}}<p>
     address: {{ride.address}}<p>
     arrival time: {{ride.arrival_time}}     {{ride.arrival_date}}<p>
     number of passenger: {{ride.number_of_passengers}}<p>
