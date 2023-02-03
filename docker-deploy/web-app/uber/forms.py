@@ -1,11 +1,13 @@
 from django import forms
+from django.forms import ModelForm
+from .models import Ride,DriverInfo
 
 VEHICLES = [
-        ('a', 'All'),
-        ('b', 'Sedan'),
-        ('c', 'SUV'),
-        ('d', 'Truck'),
-        ('e', 'Minivan'),
+        ('All', 'All'),
+        ('Sedan', 'Sedan'),
+        ('SUV', 'SUV'),
+        ('Truck', 'Truck'),
+        ('Minivan', 'Minivan'),
 ]
 
 NUM=[(1,"1"),(2,"2"),(3,"3"),(4,"4"),(5,"5"),(6,"6"),(7,"7"),(8,"8"),]
@@ -25,3 +27,14 @@ class DriverForm(forms.Form):
     maximum_number_of_passenger=forms.ChoiceField(choices=NUM)
     vehicle_type = forms.ChoiceField(choices=VEHICLES[1:])
     license_plate= forms.CharField(max_length=20)
+
+	
+class RequestUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Ride
+        exclude = ('date_published','owner','isConfirmed','isComplete')
+
+class DriverUpdateForm(forms.ModelForm):
+    class Meta:
+        model = DriverInfo
+        exclude = ('driver',)

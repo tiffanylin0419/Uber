@@ -6,11 +6,15 @@ from . import views
 urlpatterns = [
     path('', views.index, name='index'),#delete
     path('registration/', views.registration, name='registration'),
+    path('personal/update/', views.personUpdate, name='personUpdate'),
+    path('personal/', views.personal, name='personal'),
+
+
+    path('request/', views.requestRide, name='request'),
     path('myrides/', views.myrides, name='myrides'),
     path('view/<ride_id>', views.view, name='view'),
-    path('request/', views.requestRide, name='request'),
-    path('edit/', views.edit, name='edit'),
-    
+    path('update/<ride_id>', views.update, name='update'),
+
     path('search/', views.search, name='search'),
-    path('personal/', views.personal, name='personal'),
+    
 ]
