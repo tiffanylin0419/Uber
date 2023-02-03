@@ -47,10 +47,18 @@ def registration(request):
             return render(request, 'home.html')
     return render(request, 'uber/request.html', locals())
 
+
 def personal(request):
-    data=DriverInfo.objects.filter(driver=request.user)
+    person=DriverInfo.objects.get(driver=request.user)
     return render(request, 'uber/personal.html', locals())
 
+def personUpdate(request):
+    person=DriverInfo.objects.get(driver=request.user)
+    form = forms.DriverUpdateForm(request.POST or None,instance=person)
+    if form.is_valid():
+        form.save()
+        return render(request, 'home.html')
+    return render(request, 'uber/personUpdate.html', locals())
 
 def myrides(request):
     data1=Ride.objects.filter(owner=request.user ,isConfirmed=False)

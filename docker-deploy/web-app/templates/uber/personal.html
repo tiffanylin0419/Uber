@@ -8,9 +8,11 @@
  
   <p><a href="{% url 'home' %}">Home</a></p>
 
+  maximum number of passenger: {{person.maximum_number_of_passenger}}<p>
+  vehicle type: {{person.vehicle_type}}<p>
+  license plate: {{person.license_plate}}<p>
 
-
-
+  <a href="{% url 'personUpdate' %}"> Update</a>
   <p><a href="{% url 'logout' %}">Log Out</a></p>
 
 {% endblock %}
