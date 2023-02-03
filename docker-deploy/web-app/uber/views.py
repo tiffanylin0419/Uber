@@ -3,6 +3,7 @@ from .models import Ride,DriverInfo
 from django.shortcuts import render
 from django.utils import timezone
 
+from django.db.models import Q
 # Create your views here.
 
 #add
@@ -64,16 +65,26 @@ def personUpdate(request):
         return render(request, 'home.html')
     return render(request, 'uber/personUpdate.html', locals())
 
-def myrides(request):
+def myrides_rider(request):
     data1=Ride.objects.filter(owner=request.user ,isConfirmed=False)
     data2=Ride.objects.filter(owner=request.user ,isConfirmed=True,isComplete=False)
     data3=Ride.objects.filter(owner=request.user ,isComplete=True)
 
-    return render(request, 'uber/myrides.html', locals())
+    return render(request, 'uber/myrides_rider.html', locals())
+
+def myrides_driver(request):
+    data1=Ride.objects.filter(driver=request.user ,isComplete=True)
+    data2=Ride.objects.filter(driver=request.user ,isComplete=False)
+
+    return render(request, 'uber/myrides_rider.html', locals())
 
 def view(request,ride_id):
     ride=Ride.objects.get(pk=ride_id)
     return render(request, 'uber/view.html', locals())
+
+def view_d(request,ride_id):
+    ride=Ride.objects.get(pk=ride_id)
+    return render(request, 'uber/view_d.html', locals())
 
 def update(request,ride_id):
     ride=Ride.objects.get(pk=ride_id)
@@ -86,5 +97,25 @@ def update(request,ride_id):
 
 
 def driver_search(request):
-    
-    return HttpResponse("Search for a ride")
+    persons=DriverInfo.objects.filter(driver=request.user)
+    if persons:
+        person=persons[0]
+        data=Ride.objects.filter(Q(vehicle_type=person.vehicle_type) | Q(vehicle_type='All'),
+                                ~Q(owner=person.driver),
+                                isConfirmed=False,
+                                isComplete=False, 
+                                number_of_passengers__lt=person.maximum_number_of_passenger,
+                                )
+        return render(request, 'uber/driver_search.html', locals())
+    else:
+        return render(request, 'home.html')
+
+def driver_book(request,ride_id):
+    person=DriverInfo.objects.filter(driver=request.user)[0]
+    ride=Ride.objects.get(pk=ride_id)
+    ride.isConfirmed=True
+    ride.vehicle_type=person.vehicle_type
+    ride.license_plate=person.license_plate
+    ride.driver=request.user
+    ride.save()
+    return HttpResponse("Ride successfully booked.")

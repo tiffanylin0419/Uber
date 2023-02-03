@@ -9,17 +9,17 @@
 
   <h3>Open Rides</h3>
   {% for ride in data1%}
-  <a href="{% url 'view'  ride.id  %}">{{ride}}</a>   <a href="{% url 'update'  ride.id  %}"> - Update</a><br>
+  <a href="{% url 'view_d'  ride.id  %}">{{ride}}</a>  <a href="{% url 'update'  ride.id  %}"> - Update</a><br>
   {% endfor%}
   
-  <h3>Confirmmed Rides</h3>
+  <h3>Confirmed Rides</h3>
   {% for ride in data2%}
-  <a href="{% url 'view'  ride.id  %}">{{ride}}</a>   <a href="{% url 'update'  ride.id  %}"> - Update</a><br>
+  <a href="{% url 'view_d'  ride.id  %}">{{ride}}</a>  <br>
   {% endfor%}
 
   <h3>Finished Rides</h3>
   {% for ride in data3%}
-  <a href="{% url 'view'  ride.id  %}">{{ride}}</a>   <a href="{% url 'update'  ride.id  %}"> - Update</a><br>
+  <a href="{% url 'view_d'  ride.id  %}">{{ride}}</a> <br>
   {% endfor%}
   <p><a href="{% url 'logout' %}">Log Out</a></p>
 

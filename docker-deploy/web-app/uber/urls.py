@@ -11,10 +11,15 @@ urlpatterns = [
 
 
     path('request/', views.requestRide, name='request'),
-    path('myrides/', views.myrides, name='myrides'),
+    path('myrides_rider/', views.myrides_rider, name='myrides_rider'),
     path('view/<ride_id>', views.view, name='view'),
+    path('view_d/<ride_id>', views.view_d, name='view_d'),
     path('update/<ride_id>', views.update, name='update'),
 
+    path('myrides_driver/', views.myrides_rider, name='myrides_driver'),
+
     path('driver_search/', views.driver_search, name='driver_search'),
+    path('driver_book/<ride_id>', views.driver_book, name='driver_book'),
+    
     
 ]
