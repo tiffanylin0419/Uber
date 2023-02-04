@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>Ride Search for Sharer</h2>
+    {% for ride in data %}
+        Address: {{ ride.address }} <p>
+        Arrival Time: {{ride.arrival_time}} <p>
+        Passengers: {{ride.number_of_passengers}}<p>
+        Vehicle Type {{ ride.vehicle_type }}
+              
+        {% for s in ride.sharer.all %}
+            Sharer: {{ s.username }}  <p>
+        {% endfor %}
+        
+        Special Request: {{ ride.special_request }}<p>
+
+        <h2><a class="article-title" href="{% url 'sharer_join' ride.id %}">Join</a></h2>
+            
+    {% endfor %}
+{%endblock content%}

@@ -1,0 +1,5 @@
+{% autoescape off %}  
+Hi {{ user.username }},  
+Your ride has been accepted and confirmed.  
+http://{{ domain }}{% url 'activate' uidb64=uid token=token %}  
+{% endautoescape %}  

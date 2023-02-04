@@ -4,8 +4,10 @@
 {% block title %}MyRides{% endblock %}
 
 {% block content %}
-  <h2>My Rides</h2>
   <p><a href="{% url 'home' %}">Home</a></p>
+  </br>
+
+  <h2>My Rides</h2>
 
   <h3>Open Rides</h3>
   {% for ride in data1%}
@@ -13,6 +15,7 @@
    <a href="{% url 'update'  ride.id  %}"> - Update</a>
    <a href="{% url 'owner_delete'  ride.id  %}"> - Delete</a><br>
   {% endfor%}
+
   
   <h3>Confirmed Rides</h3>
   {% for ride in data2%}
@@ -23,6 +26,28 @@
   {% for ride in data3%}
   <a href="{% url 'view_d'  ride.id  %}">{{ride}}</a> <br>
   {% endfor%}
+
+  <br> </br>
+  
+  <h2>Shared Rides</h2>
+
+  <h3>Open Rides</h3>
+  {% for ride in data1_2%}
+  <a href="{% url 'view_d'  ride.id  %}">{{ride}}</a> 
+   <a href="{% url 'sharer_delete'  ride.id  %}"> - Delete</a><br>
+  {% endfor%}
+
+  <h3>Confirmed Rides</h3>
+  {% for ride in data2_2%}
+  <a href="{% url 'view_d'  ride.id  %}">{{ride}}</a>  <br>
+  {% endfor%}
+  
+  <h3>Finished Rides</h3>
+  {% for ride in data3_2%}
+  <a href="{% url 'view_d'  ride.id  %}">{{ride}}</a>  <br>
+  {% endfor%}
+
+  </br>
   <p><a href="{% url 'logout' %}">Log Out</a></p>
 
 {% endblock %}

@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-e-#rb#9o+#+*p=#+7o2m6ziz_0c$cxys8o7)7m8ym)d0%qixfc
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['vcm-30969.vm.duke.edu','127.0.0.1']
+ALLOWED_HOSTS = ['vcm-31009.vm.duke.edu','127.0.0.1']
 
 
 # Application definition
@@ -82,8 +82,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'uber',
-        'USER': 'tl330',
-        'PASSWORD': 'tl330',
+        'USER': 'yd176',
+        'PASSWORD': '123',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
@@ -114,12 +114,13 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'EST'
+TIME_ZONE = 'America/New_York'
 
 USE_I18N = True
 
-USE_TZ = True
+USE_L10N = True
 
+USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
@@ -133,3 +134,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "home"
+
+EMAIL_USE_TLS = True  
+EMAIL_HOST = 'smtp.gmail.com'  
+EMAIL_HOST_USER = 'ece568yuxin@gmail.com'  
+EMAIL_HOST_PASSWORD = 'zjyohaiuabbslzit'  
+EMAIL_PORT = 587  

@@ -10,7 +10,6 @@
     address: {{ride.address}}<p>
     arrival time: {{ride.arrival_time}}     {{ride.arrival_date}}<p>
     number of passenger: {{ride.number_of_passengers}}<p>
-    owner: {{ride.owner}}<p>
     can be shared: {{ride.can_be_shared}}<p>
     vehicletype: {{ride.vehicle_type}}<p>
     special request: {{ride.special_request}}<p>
@@ -20,6 +19,13 @@
     vehicle type: {{ride.driver.vehicle_type}}<p>
     license plate: {{ride.driver.license_plate}}<p>
     
+    </br>
+    <h3>Sharer Name</h3><p>
+    {% for s in ride.sharer.all %}
+      {{ s.username }}  <p>
+    {%endfor%}
+
+    </br>
   <p><a href="{% url 'logout' %}">Log Out</a></p>
 
 {% endblock %}
