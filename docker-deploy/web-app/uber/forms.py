@@ -1,17 +1,9 @@
 from django import forms
 from django.forms import ModelForm
-from .models import Ride,DriverInfo
+from .models import Ride,DriverInfo, VEHICLES,NUM
 from datetime import datetime, timedelta, tzinfo
 
-VEHICLES = [
-        ('All', 'All'),
-        ('Sedan', 'Sedan'),
-        ('SUV', 'SUV'),
-        ('Truck', 'Truck'),
-        ('Minivan', 'Minivan'),
-]
 
-NUM=[(1,"1"),(2,"2"),(3,"3"),(4,"4"),(5,"5"),(6,"6"),(7,"7"),(8,"8"),]
 
 from django.contrib.auth.models import User
 
