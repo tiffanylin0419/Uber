@@ -125,6 +125,7 @@ def search_driver(request):
 
 def search_rider(request):
     data=Ride.objects.filter(~Q(owner=request.user),
+                            ~Q(sharer=request.user),
                             isConfirmed=False,
                             isComplete=False, 
                             can_be_shared=True,)
