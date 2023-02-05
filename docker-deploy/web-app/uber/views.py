@@ -65,7 +65,13 @@ def personUpdate(request):
     return render(request, 'uber/personUpdate.html', locals())
 
 def personDelete(request):
-    DriverInfo.objects.filter(driver=request.user).delete()
+    person=DriverInfo.objects.get(driver=request.user)
+    rides=Ride.objects.filter(driver=person)
+    for i in rides:
+        i.isConfirmed=False
+        i.driver=None
+        i.save()
+    person.delete()
     return render(request, 'home.html')
 
 def myrides_rider(request):
