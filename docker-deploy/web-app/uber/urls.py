@@ -21,10 +21,13 @@ urlpatterns = [
     path('search_driver/', views.search_driver, name='search_driver'),
     path('search_rider/', views.search_rider, name='search_rider'),
 
-    path('driver_book/<ride_id>', views.driver_book, name='driver_book'),
-    path('owner_delete/<ride_id>', views.owner_delete, name='owner_delete'),
-    path('driver_finish/<ride_id>', views.driver_finish, name='driver_finish'),
     
+    path('owner_delete/<ride_id>', views.owner_delete, name='owner_delete'),
+
+    path('driver_book/<ride_id>', views.driver_book, name='driver_book'),
+    path('driver_finish/<ride_id>', views.driver_finish, name='driver_finish'),
+    path('driver_delete/<ride_id>', views.driver_delete, name='driver_delete'),
+
     path('sharer_specify/', views.sharer_specify, name='sharer_specify'),
     
     #path('search_sharer/', views.search_sharer, name='search_sharer'),

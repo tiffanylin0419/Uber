@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
     <h2>Ride Search for Sharer</h2>
+    <p><a href="{% url 'home' %}">Home</a></p>
     {% for ride in data %}
         Address: {{ ride.address }} <p>
         Arrival Time: {{ride.arrival_time}} <p>
@@ -13,7 +14,10 @@
         
         Special Request: {{ ride.special_request }}<p>
 
-        <h2><a class="article-title" href="{% url 'sharer_join' ride.id %}">Join</a></h2>
+        <a  href="{% url 'sharer_join' ride.id %}">Join</a><br>
             
     {% endfor %}
+    <br>
+    <p><a href="{% url 'logout' %}">Log Out</a></p>
+
 {%endblock content%}

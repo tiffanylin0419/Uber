@@ -9,14 +9,14 @@
 
   <h3>Confirmed Rides</h3>
   {% for ride in data1%}
-  <a href="{% url 'view_d'  ride.id  %}">{{ride}}</a> - <a href="{% url 'driver_finish'  ride.id  %}">Finish</a><br>
+  <a href="{% url 'view_d'  ride.id  %}">{{ride}}</a> - <a href="{% url 'driver_finish'  ride.id  %}">Finish</a>- <a href="{% url 'driver_delete'  ride.id  %}">Delete</a><br>
   {% endfor%}
   
   <h3>Finished Rides</h3>
   {% for ride in data2%}
   <a href="{% url 'view_d'  ride.id  %}">{{ride}}</a>  <br>
   {% endfor%}
-
+  <br>
   <p><a href="{% url 'logout' %}">Log Out</a></p>
 
 {% endblock %}

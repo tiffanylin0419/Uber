@@ -45,7 +45,7 @@ def registration(request):
                     )
             r.save()
             return render(request, 'home.html')
-    return render(request, 'uber/request.html', locals())
+    return render(request, 'uber/registration.html', locals())
 
 
 def personal(request):
@@ -176,6 +176,12 @@ def driver_finish(request,ride_id):
     ride.save()
     return HttpResponse("Ride finished.")
 
+def driver_delete(request,ride_id):
+    ride=Ride.objects.get(pk=ride_id)
+    ride.isConfirmed=False
+    ride.driver=None
+    ride.save()
+    return HttpResponse("Ride deleted.")
 
 def sharer_specify(request):
     #context = {}

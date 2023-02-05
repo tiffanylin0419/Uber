@@ -10,7 +10,7 @@
   <a href="{% url 'view'  ride.id  %}">{{ride}}</a> - <a href="{% url 'sharer_join'  ride.id %}"> Book Ride</a> <br>
   {% endfor%}
 
-
+  <br>
   <p><a href="{% url 'logout' %}">Log Out</a></p>
 
 {% endblock %}
