@@ -173,7 +173,7 @@ def driver_book(request,ride_id):
     recipient_list.append(ride.owner.email)
     sharers = Sharer.objects.filter(ride=ride_id)
     for person in sharers:
-        recipient_list.append(person.email)
+        recipient_list.append(person.sharer.email)
     
     message = "Thank you for waiting. Your order has been confrimed.\n"
     message += 'Driver: ' + request.user.username + '\n'
