@@ -114,6 +114,7 @@ def search_driver(request):
         data= Ride.objects.annotate(num_sharer=Count('sharer')).filter(
                                 Q(vehicle_type=person.vehicle_type) | Q(vehicle_type='All'),
                                 ~Q(owner=person.driver),
+                                ~Q(sharer=request.user),
                                 num_sharer__lt=person.maximum_number_of_passenger+1-F('number_of_passengers'),#passenger+sharer<=max passenger
                                 isConfirmed=False,
                                 isComplete=False, )
