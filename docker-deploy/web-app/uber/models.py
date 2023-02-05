@@ -25,6 +25,7 @@ class DriverInfo(models.Model):
     def __str__(self):
         return self.license_plate
 
+
 class Ride(models.Model):
     date_published = models.DateTimeField()
     address = models.CharField(max_length=50,default="")
@@ -37,11 +38,14 @@ class Ride(models.Model):
     isConfirmed=models.BooleanField(default=False)
     isComplete=models.BooleanField(default=False)
     driver= models.ForeignKey(DriverInfo, on_delete=models.CASCADE, null=True, default=None)
-    sharer = models.ManyToManyField(User, default = None, blank=True, related_name ='sharer')
+    #sharer = models.ManyToManyField(User, default = None, blank=True, related_name ='sharer')
     #capacity = models.IntegerField(default = 1)
 
     def __str__(self):
         return self.address
-    #def was_published_recently(self):
-    #    return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
+
+class Sharer(models.Model):
+    sharer= models.ForeignKey(User, on_delete=models.CASCADE, null=True, default=None)
+    ride= models.ForeignKey(Ride, on_delete=models.CASCADE, null=True, default=None)
+    number_of_passengers=models.IntegerField(default=1,choices=NUM)
 

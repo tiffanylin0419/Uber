@@ -1,5 +1,5 @@
 from . import forms
-from .models import Ride,DriverInfo
+from .models import Ride,DriverInfo,Sharer
 from django.shortcuts import render
 from django.utils import timezone
 from django.db.models import F,Sum
@@ -78,15 +78,15 @@ def myrides_rider(request):
     
     #kick out sharer because owner turn off can_be_shared
     data_noShare=Ride.objects.filter(can_be_shared=False)
-    for i in data_noShare:
-        i.sharer.clear()
+    sharer=Sharer.objects.filter(ride__in=data_noShare)
+    sharer.delete()
 
     data1=Ride.objects.filter(owner=request.user ,isConfirmed=False)
-    data1_2 = Ride.objects.filter(sharer=request.user ,isConfirmed=False)
+    data1_2=Ride.objects.filter(id__in=Sharer.objects.filter(sharer=request.user).values_list('ride', flat=True),isConfirmed=False)
     data2=Ride.objects.filter(owner=request.user ,isConfirmed=True,isComplete=False)
-    data2_2=Ride.objects.filter(sharer=request.user ,isConfirmed=True,isComplete=False)
+    data2_2=Ride.objects.filter(id__in=Sharer.objects.filter(sharer=request.user).values_list('ride', flat=True),isConfirmed=True,isComplete=False)
     data3=Ride.objects.filter(owner=request.user ,isComplete=True)
-    data3_2=Ride.objects.filter(sharer=request.user ,isComplete=True)
+    data3_2=Ride.objects.filter(id__in=Sharer.objects.filter(sharer=request.user).values_list('ride', flat=True),isComplete=True)
     
     return render(request, 'uber/myrides_rider.html', locals())
 
@@ -94,8 +94,8 @@ def myrides_driver(request):
 
     #kick out sharer because owner turn off can_be_shared
     data_noShare=Ride.objects.filter(can_be_shared=False)
-    for i in data_noShare:
-        i.sharer.clear()
+    sharer=Sharer.objects.filter(ride__in=data_noShare)
+    sharer.delete()
 
     persons=DriverInfo.objects.filter(driver=request.user)
     if persons:
@@ -105,9 +105,6 @@ def myrides_driver(request):
         return render(request, 'uber/myrides_driver.html', locals())
     else:
         return render(request, 'home.html')
-    
-
-
 
 
 def view(request,ride_id):
@@ -132,21 +129,25 @@ def search_driver(request):
 
     #kick out sharer because owner turn off can_be_shared
     data_noShare=Ride.objects.filter(can_be_shared=False)
-    for i in data_noShare:
-        i.sharer.clear()
+    sharer=Sharer.objects.filter(ride__in=data_noShare)
+    sharer.delete()
 
     persons=DriverInfo.objects.filter(driver=request.user)
     if persons:
         person=persons[0]
 
-        data= Ride.objects.annotate(num_sharer=Count('sharer')).filter(
-                                Q(vehicle_type=person.vehicle_type) | Q(vehicle_type='All'),
-                                ~Q(owner=person.driver),
-                                ~Q(sharer=request.user),
-                                num_sharer__lt=person.maximum_number_of_passenger+1-F('number_of_passengers'),#passenger+sharer<=max passenger
-                                isConfirmed=False,
-                                isComplete=False, )
-        
+
+        data=[]
+        for i in Ride.objects.filter(Q(vehicle_type=person.vehicle_type) | Q(vehicle_type='All'),
+                                    ~Q(owner=person.driver),
+                                    isConfirmed=False,
+                                    isComplete=False, ):
+            share=Sharer.objects.filter(ride=i)
+            num_sharer=sum(share.values_list('number_of_passengers', flat=True))
+            isShared=Sharer.objects.filter(ride=i,sharer=request.user)
+
+            if num_sharer+i.number_of_passengers<=person.maximum_number_of_passenger  and not isShared:
+                data.append(i)
         return render(request, 'uber/search_driver.html', locals())
     else:
         return render(request, 'home.html')
@@ -155,16 +156,27 @@ def search_rider(request):
 
     #kick out sharer because owner turn off can_be_shared
     data_noShare=Ride.objects.filter(can_be_shared=False)
-    for i in data_noShare:
-        i.sharer.clear()
+    sharer=Sharer.objects.filter(ride__in=data_noShare)
+    sharer.delete()
 
     data=Ride.objects.annotate(num_sharer=Count('sharer')).filter(~Q(owner=request.user),
-                            ~Q(sharer=request.user),
+                            #~Q(sharer=request.user),
                             isConfirmed=False,
                             isComplete=False, 
                             can_be_shared=True,
-                            num_sharer__lt=8-F('number_of_passengers'),#passenger+sharer<8
+                            #num_sharer__lt=8-F('number_of_passengers'),#passenger+sharer<8
                             )
+
+    data=[]
+    for i in Ride.objects.filter(isConfirmed=False,
+                                isComplete=False, 
+                                can_be_shared=True,):
+        share=Sharer.objects.filter(ride=i)
+        num_sharer=sum(share.values_list('number_of_passengers', flat=True))
+        isShared=Sharer.objects.filter(ride=i,sharer=request.user)
+        if i.number_of_passengers+num_sharer<=8 and not isShared:
+            data.append(i) 
+
     return render(request, 'uber/search_rider.html', locals())
 
 def driver_book(request,ride_id):
@@ -193,6 +205,7 @@ def driver_delete(request,ride_id):
     ride.save()
     return HttpResponse("Ride deleted.")
 
+'''
 def sharer_specify(request):
     #context = {}
     if(request.method == 'POST'):
@@ -214,15 +227,15 @@ def sharer_specify(request):
     else :
         form = forms.SharerSpecifyForm()
         return render(request, 'uber/sharer_specify.html', locals())
+'''
 
 def sharer_join(request, ride_id):
-    ride = Ride.objects.filter(pk=ride_id).first()
-    ride.sharer.add(request.user)
-    ride.save()
+    ride = Ride.objects.get(pk=ride_id)
+    s=Sharer(sharer=request.user, ride=ride, number_of_passengers=1)
+    s.save()
     return HttpResponse("Join success")
 
 def sharer_delete(request,ride_id):
-    ride=Ride.objects.get(pk=ride_id)
-    ride.sharer.remove(request.user)
-    ride.save()
+    Sharer.objects.filter(ride=ride_id,sharer=request.user).delete()
+    
     return HttpResponse("Ride deleted.")

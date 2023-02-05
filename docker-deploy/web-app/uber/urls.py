@@ -30,8 +30,9 @@ urlpatterns = [
     path('driver_finish/<ride_id>', views.driver_finish, name='driver_finish'),
     path('driver_delete/<ride_id>', views.driver_delete, name='driver_delete'),
 
-    path('sharer_specify/', views.sharer_specify, name='sharer_specify'),
-    
+    #path('sharer_specify/', views.sharer_specify, name='sharer_specify'),
+    #also add in home.html
+
     #path('search_sharer/', views.search_sharer, name='search_sharer'),
     
     path('sharer_join/<ride_id>', views.sharer_join, name='sharer_join'),
