@@ -2,8 +2,9 @@ from . import forms
 from .models import Ride,DriverInfo
 from django.shortcuts import render
 from django.utils import timezone
-
+from django.db.models import F,Sum
 from django.db.models import Q
+from django.db.models import Count
 # Create your views here.
 
 #add
@@ -109,12 +110,14 @@ def search_driver(request):
     persons=DriverInfo.objects.filter(driver=request.user)
     if persons:
         person=persons[0]
-        data=Ride.objects.filter(Q(vehicle_type=person.vehicle_type) | Q(vehicle_type='All'),
+
+        data= Ride.objects.annotate(num_sharer=Count('sharer')).filter(
+                                Q(vehicle_type=person.vehicle_type) | Q(vehicle_type='All'),
                                 ~Q(owner=person.driver),
+                                num_sharer__lt=person.maximum_number_of_passenger+1-F('number_of_passengers'),#passenger+sharer<=max passenger
                                 isConfirmed=False,
-                                isComplete=False, 
-                                number_of_passengers__lt=person.maximum_number_of_passenger,
-                                )
+                                isComplete=False, )
+
         return render(request, 'uber/search_driver.html', locals())
     else:
         return render(request, 'home.html')
