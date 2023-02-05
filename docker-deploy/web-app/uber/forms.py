@@ -42,7 +42,9 @@ class DriverForm(forms.Form):
 class RequestUpdateForm(forms.ModelForm):
     class Meta:
         model = Ride
+        #number_of_passengers= forms.ChoiceField(choices=NUM)
         exclude = ('date_published','owner','isConfirmed','isComplete','driver','license_plate','sharer')
+        
 
 class DriverUpdateForm(forms.ModelForm):
     class Meta:

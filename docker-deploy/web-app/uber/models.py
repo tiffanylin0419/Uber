@@ -3,6 +3,7 @@ from django.db import models
 # Create your models here.
 from django.utils import timezone
 from django.contrib.auth.models import User
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 class DriverInfo(models.Model):
     driver= models.ForeignKey(User, on_delete=models.CASCADE, null=True, default=None)
@@ -16,7 +17,7 @@ class Ride(models.Model):
     date_published = models.DateTimeField()
     address = models.CharField(max_length=50,default="")
     arrival_time=models.DateTimeField()
-    number_of_passengers=models.IntegerField(default=1)
+    number_of_passengers=models.PositiveSmallIntegerField(validators=[MaxValueValidator(8), MinValueValidator(1)],default=1)#models.IntegerField(default=1)
     owner= models.ForeignKey(User, on_delete=models.CASCADE, related_name='owner')
     can_be_shared=models.BooleanField(default=False)
     vehicle_type= models.CharField(max_length=5,default="All")#op
