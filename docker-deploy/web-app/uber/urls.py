@@ -35,7 +35,7 @@ urlpatterns = [
 
     #path('search_sharer/', views.search_sharer, name='search_sharer'),
     
-    path('sharer_join/<ride_id>', views.sharer_join, name='sharer_join'),
+    path('sharer_join/<ride_id>/<num_passengers>', views.sharer_join, name='sharer_join'),
     path('sharer_delete/<ride_id>', views.sharer_delete, name='sharer_delete'),
     
 ]

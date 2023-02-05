@@ -81,9 +81,9 @@ WSGI_APPLICATION = 'firsthomework.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'uber_share',
-        'USER': 'tl330',
-        'PASSWORD': 'tl330',
+        'NAME': 'uber2',
+        'USER': 'yd176',
+        'PASSWORD': '123',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }

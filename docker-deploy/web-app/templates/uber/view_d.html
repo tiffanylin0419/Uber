@@ -21,8 +21,8 @@
     
     </br>
     <h3>Sharer Name</h3><p>
-    {% for s in ride.sharer.all %}
-      {{ s.username }}  <p>
+    {% for s in sharers %}
+      {{ s.sharer.username }}  <p>
     {%endfor%}
 
     </br>

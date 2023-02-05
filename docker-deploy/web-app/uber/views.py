@@ -5,6 +5,7 @@ from django.utils import timezone
 from django.db.models import F,Sum
 from django.db.models import Q
 from django.db.models import Count
+from django.core.mail import send_mail
 # Create your views here.
 
 #add
@@ -113,6 +114,7 @@ def view(request,ride_id):
 
 def view_d(request,ride_id):
     ride=Ride.objects.get(pk=ride_id)
+    sharers = Sharer.objects.filter(ride=ride_id)
     return render(request, 'uber/view_d.html', locals())
 
 def update(request,ride_id):
@@ -126,7 +128,6 @@ def update(request,ride_id):
 
 
 def search_driver(request):
-
     #kick out sharer because owner turn off can_be_shared
     data_noShare=Ride.objects.filter(can_be_shared=False)
     sharer=Sharer.objects.filter(ride__in=data_noShare)
@@ -152,32 +153,14 @@ def search_driver(request):
     else:
         return render(request, 'home.html')
 
-def search_rider(request):
+# def search_rider(request):
 
-    #kick out sharer because owner turn off can_be_shared
-    data_noShare=Ride.objects.filter(can_be_shared=False)
-    sharer=Sharer.objects.filter(ride__in=data_noShare)
-    sharer.delete()
+#     #kick out sharer because owner turn off can_be_shared
+#     data_noShare=Ride.objects.filter(can_be_shared=False)
+#     sharer=Sharer.objects.filter(ride__in=data_noShare)
+#     sharer.delete()
 
-    data=Ride.objects.annotate(num_sharer=Count('sharer')).filter(~Q(owner=request.user),
-                            #~Q(sharer=request.user),
-                            isConfirmed=False,
-                            isComplete=False, 
-                            can_be_shared=True,
-                            #num_sharer__lt=8-F('number_of_passengers'),#passenger+sharer<8
-                            )
-
-    data=[]
-    for i in Ride.objects.filter(isConfirmed=False,
-                                isComplete=False, 
-                                can_be_shared=True,):
-        share=Sharer.objects.filter(ride=i)
-        num_sharer=sum(share.values_list('number_of_passengers', flat=True))
-        isShared=Sharer.objects.filter(ride=i,sharer=request.user)
-        if i.number_of_passengers+num_sharer<=8 and not isShared:
-            data.append(i) 
-
-    return render(request, 'uber/search_rider.html', locals())
+#     return render(request, 'uber/search_rider.html', locals())
 
 def driver_book(request,ride_id):
     person=DriverInfo.objects.filter(driver=request.user)[0]
@@ -185,7 +168,27 @@ def driver_book(request,ride_id):
     ride.isConfirmed=True
     ride.driver=person
     ride.save()
-    return HttpResponse("Ride booked.")
+    
+    recipient_list = []
+    recipient_list.append(ride.owner.email)
+    sharers = Sharer.objects.filter(ride=ride_id)
+    for person in sharers:
+        recipient_list.append(person.email)
+    
+    message = "Thank you for waiting. Your order has been confrimed.\n"
+    message += 'Driver: ' + request.user.username + '\n'
+    message += 'Vehicle: ' + ride.vehicle_type + '\n'
+    message += 'Address: ' + ride.address + '\n'
+    message += 'Arrival time: ' + str(ride.arrival_time) + '\n'
+
+    send_mail(
+        subject='Confirmation of your order',
+        message=message,
+        from_email='ece568yuxin@gmail.com',
+        recipient_list=recipient_list,
+        fail_silently=False
+    )
+    return HttpResponse("You have confrimed the ride !")
 
 def owner_delete(request,ride_id):
     ride=Ride.objects.get(pk=ride_id)
@@ -205,8 +208,8 @@ def driver_delete(request,ride_id):
     ride.save()
     return HttpResponse("Ride deleted.")
 
-'''
-def sharer_specify(request):
+
+def search_rider(request):
     #context = {}
     if(request.method == 'POST'):
         form = forms.SharerSpecifyForm(request.POST)
@@ -215,23 +218,36 @@ def sharer_specify(request):
             earliest_arrival_time =  form.cleaned_data['earliest_arrival_time']
             latest_arrival_time = form.cleaned_data['latest_arrival_time']
             number_of_passengers = form.cleaned_data['number_of_passengers']
-            data = Ride.objects.filter(~Q(owner=request.user), 
-                                       arrival_time__range=(earliest_arrival_time, latest_arrival_time), 
-                                       address = addr, 
-                                       # number_of_passengers
-                                       isConfirmed=False,
-                                       isComplete=False, 
-                                       can_be_shared=True,)
+            number_of_passengers = (int) (number_of_passengers)
             
-            return render(request, 'uber/search_sharer.html', locals())
+            #kick out sharer because owner turn off can_be_shared
+            data_noShare=Ride.objects.filter(can_be_shared=False)
+            sharer=Sharer.objects.filter(ride__in=data_noShare)
+            sharer.delete()
+            
+            data=[]
+            for i in Ride.objects.filter(~Q(owner=request.user), 
+                                          arrival_time__range=(earliest_arrival_time, latest_arrival_time), 
+                                          address = addr,
+                                          isConfirmed=False,
+                                          isComplete=False, 
+                                          can_be_shared=True,):
+                share=Sharer.objects.filter(ride=i)
+                num_sharer=sum(share.values_list('number_of_passengers', flat=True))
+                isShared=Sharer.objects.filter(ride=i,sharer=request.user)
+                if i.number_of_passengers+num_sharer+(int)(number_of_passengers)<=8 and not isShared:
+                    data.append(i) 
+            
+            
+            return render(request, 'uber/search_result.html', locals())
     else :
         form = forms.SharerSpecifyForm()
-        return render(request, 'uber/sharer_specify.html', locals())
-'''
+        return render(request, 'uber/search_rider.html', locals())
 
-def sharer_join(request, ride_id):
+
+def sharer_join(request, ride_id, num_passengers):
     ride = Ride.objects.get(pk=ride_id)
-    s=Sharer(sharer=request.user, ride=ride, number_of_passengers=1)
+    s=Sharer(sharer=request.user, ride=ride, number_of_passengers=num_passengers)
     s.save()
     return HttpResponse("Join success")
 

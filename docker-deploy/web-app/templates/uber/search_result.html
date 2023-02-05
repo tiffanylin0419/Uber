@@ -1,0 +1,16 @@
+<!-- templates/registration/signup.html -->
+{% extends "base.html" %}
+
+{% block title %}Ride Search Result{% endblock %}
+
+{% block content %}
+  <h2>Ride Search Result for Rider</h2>
+  <p><a href="{% url 'home' %}">Home</a></p>
+  {% for ride in data%}
+  <a href="{% url 'view'  ride.id  %}">{{ride}}</a> - <a href="{% url 'sharer_join'  ride.id  number_of_passengers%}"> Book Ride</a> <br>
+  {% endfor%}
+
+  <br>
+  <p><a href="{% url 'logout' %}">Log Out</a></p>
+
+{% endblock %}
