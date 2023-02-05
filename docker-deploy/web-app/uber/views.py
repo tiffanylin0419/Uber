@@ -74,10 +74,18 @@ def myrides_rider(request):
     return render(request, 'uber/myrides_rider.html', locals())
 
 def myrides_driver(request):
-    data1=Ride.objects.filter(driver__driver=request.user ,isComplete=False)
-    data2=Ride.objects.filter(driver__driver=request.user ,isComplete=True)
+    persons=DriverInfo.objects.filter(driver=request.user)
+    if persons:
+        data1=Ride.objects.filter(driver__driver=request.user ,isComplete=False)
+        data2=Ride.objects.filter(driver__driver=request.user ,isComplete=True)
 
-    return render(request, 'uber/myrides_driver.html', locals())
+        return render(request, 'uber/myrides_driver.html', locals())
+    else:
+        return render(request, 'home.html')
+    
+
+
+
 
 def view(request,ride_id):
     ride=Ride.objects.get(pk=ride_id)
