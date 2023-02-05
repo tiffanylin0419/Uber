@@ -64,6 +64,10 @@ def personUpdate(request):
         return render(request, 'home.html')
     return render(request, 'uber/personUpdate.html', locals())
 
+def personDelete(request):
+    DriverInfo.objects.filter(driver=request.user).delete()
+    return render(request, 'home.html')
+
 def myrides_rider(request):
     
     #kick out sharer because owner turn off can_be_shared

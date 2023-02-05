@@ -6,8 +6,10 @@ from . import views
 urlpatterns = [
     path('', views.index, name='index'),#delete
     path('registration/', views.registration, name='registration'),
-    path('personal/update/', views.personUpdate, name='personUpdate'),
+    
     path('personal/', views.personal, name='personal'),
+    path('personal/update/', views.personUpdate, name='personUpdate'),
+    path('personal/delete/', views.personDelete, name='personDelete'),
 
 
     path('request/', views.requestRide, name='request'),
