@@ -9,8 +9,7 @@ from django.db.models import Q
 #add
 from django.http import HttpResponse
 
-from django.urls import reverse_lazy
-from django.views import generic
+from django.core.mail import send_mail
 
 def index(request):#delete
     return HttpResponse("Hello, world. You're at the polls index.")
@@ -118,13 +117,36 @@ def search_rider(request):
                             can_be_shared=True,)
     return render(request, 'uber/search_rider.html', locals())
 
+
+
 def driver_book(request,ride_id):
     person=DriverInfo.objects.filter(driver=request.user)[0]
     ride=Ride.objects.get(pk=ride_id)
     ride.isConfirmed=True
     ride.driver=person
     ride.save()
-    return HttpResponse("Ride booked.")
+    
+    recipient_list = []
+    recipient_list.append(ride.owner.email)
+    sharer = ride.sharer.all()
+    for person in sharer:
+        recipient_list.append(person.email)
+    
+    message = "Thank you for waiting. Your order has been confrimed.\n"
+    message += 'Driver: ' + request.user.username + '\n'
+    message += 'Vehicle: ' + ride.vehicle_type + '\n'
+    message += 'Address: ' + ride.address + '\n'
+    message += 'Arrival time: ' + str(ride.arrival_time) + '\n'
+
+    send_mail(
+        subject='Confirmation of your order',
+        message=message,
+        from_email='ece568yuxin@gmail.com',
+        recipient_list=recipient_list,
+        fail_silently=False
+    )
+
+    return HttpResponse("You have confrimed the ride !")
 
 def owner_delete(request,ride_id):
     ride=Ride.objects.get(pk=ride_id)
