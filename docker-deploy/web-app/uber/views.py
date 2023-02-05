@@ -142,17 +142,19 @@ def search_driver(request):
         return render(request, 'home.html')
 
 def search_rider(request):
-    
+
     #kick out sharer because owner turn off can_be_shared
     data_noShare=Ride.objects.filter(can_be_shared=False)
     for i in data_noShare:
         i.sharer.clear()
 
-    data=Ride.objects.filter(~Q(owner=request.user),
+    data=Ride.objects.annotate(num_sharer=Count('sharer')).filter(~Q(owner=request.user),
                             ~Q(sharer=request.user),
                             isConfirmed=False,
                             isComplete=False, 
-                            can_be_shared=True,)
+                            can_be_shared=True,
+                            num_sharer__lt=8-F('number_of_passengers'),#passenger+sharer<8
+                            )
     return render(request, 'uber/search_rider.html', locals())
 
 def driver_book(request,ride_id):
