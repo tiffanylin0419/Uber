@@ -65,6 +65,12 @@ def personUpdate(request):
     return render(request, 'uber/personUpdate.html', locals())
 
 def myrides_rider(request):
+    
+    #kick out sharer because owner turn off can_be_shared
+    data_noShare=Ride.objects.filter(can_be_shared=False)
+    for i in data_noShare:
+        i.sharer.clear()
+
     data1=Ride.objects.filter(owner=request.user ,isConfirmed=False)
     data1_2 = Ride.objects.filter(sharer=request.user ,isConfirmed=False)
     data2=Ride.objects.filter(owner=request.user ,isConfirmed=True,isComplete=False)
@@ -75,6 +81,12 @@ def myrides_rider(request):
     return render(request, 'uber/myrides_rider.html', locals())
 
 def myrides_driver(request):
+
+    #kick out sharer because owner turn off can_be_shared
+    data_noShare=Ride.objects.filter(can_be_shared=False)
+    for i in data_noShare:
+        i.sharer.clear()
+
     persons=DriverInfo.objects.filter(driver=request.user)
     if persons:
         data1=Ride.objects.filter(driver__driver=request.user ,isComplete=False)
@@ -107,6 +119,12 @@ def update(request,ride_id):
 
 
 def search_driver(request):
+
+    #kick out sharer because owner turn off can_be_shared
+    data_noShare=Ride.objects.filter(can_be_shared=False)
+    for i in data_noShare:
+        i.sharer.clear()
+
     persons=DriverInfo.objects.filter(driver=request.user)
     if persons:
         person=persons[0]
@@ -118,12 +136,18 @@ def search_driver(request):
                                 num_sharer__lt=person.maximum_number_of_passenger+1-F('number_of_passengers'),#passenger+sharer<=max passenger
                                 isConfirmed=False,
                                 isComplete=False, )
-
+        
         return render(request, 'uber/search_driver.html', locals())
     else:
         return render(request, 'home.html')
 
 def search_rider(request):
+    
+    #kick out sharer because owner turn off can_be_shared
+    data_noShare=Ride.objects.filter(can_be_shared=False)
+    for i in data_noShare:
+        i.sharer.clear()
+
     data=Ride.objects.filter(~Q(owner=request.user),
                             ~Q(sharer=request.user),
                             isConfirmed=False,
