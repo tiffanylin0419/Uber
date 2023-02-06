@@ -76,12 +76,6 @@ def personDelete(request):
     return render(request, 'home.html')
 
 def myrides_rider(request):
-    
-    #kick out sharer because owner turn off can_be_shared
-    data_noShare=Ride.objects.filter(can_be_shared=False)
-    sharer=Sharer.objects.filter(ride__in=data_noShare)
-    sharer.delete()
-
     data1=Ride.objects.filter(owner=request.user ,isConfirmed=False)
     data1_2=Ride.objects.filter(id__in=Sharer.objects.filter(sharer=request.user).values_list('ride', flat=True),isConfirmed=False)
     data2=Ride.objects.filter(owner=request.user ,isConfirmed=True,isComplete=False)
@@ -92,12 +86,6 @@ def myrides_rider(request):
     return render(request, 'uber/myrides_rider.html', locals())
 
 def myrides_driver(request):
-
-    #kick out sharer because owner turn off can_be_shared
-    data_noShare=Ride.objects.filter(can_be_shared=False)
-    sharer=Sharer.objects.filter(ride__in=data_noShare)
-    sharer.delete()
-
     persons=DriverInfo.objects.filter(driver=request.user)
     if persons:
         data1=Ride.objects.filter(driver__driver=request.user ,isComplete=False)
@@ -122,17 +110,13 @@ def update(request,ride_id):
     form = forms.RequestUpdateForm(request.POST or None,instance=ride)
     if form.is_valid():
         form.save()
+        Sharer.objects.filter(ride=ride).delete()
         return render(request, 'home.html')
     return render(request, 'uber/update.html', locals())
 
 
 
 def search_driver(request):
-    #kick out sharer because owner turn off can_be_shared
-    data_noShare=Ride.objects.filter(can_be_shared=False)
-    sharer=Sharer.objects.filter(ride__in=data_noShare)
-    sharer.delete()
-
     persons=DriverInfo.objects.filter(driver=request.user)
     if persons:
         person=persons[0]
@@ -152,15 +136,6 @@ def search_driver(request):
         return render(request, 'uber/search_driver.html', locals())
     else:
         return render(request, 'home.html')
-
-# def search_rider(request):
-
-#     #kick out sharer because owner turn off can_be_shared
-#     data_noShare=Ride.objects.filter(can_be_shared=False)
-#     sharer=Sharer.objects.filter(ride__in=data_noShare)
-#     sharer.delete()
-
-#     return render(request, 'uber/search_rider.html', locals())
 
 def driver_book(request,ride_id):
     person=DriverInfo.objects.filter(driver=request.user)[0]
@@ -219,11 +194,6 @@ def search_rider(request):
             latest_arrival_time = form.cleaned_data['latest_arrival_time']
             number_of_passengers = form.cleaned_data['number_of_passengers']
             number_of_passengers = (int) (number_of_passengers)
-            
-            #kick out sharer because owner turn off can_be_shared
-            data_noShare=Ride.objects.filter(can_be_shared=False)
-            sharer=Sharer.objects.filter(ride__in=data_noShare)
-            sharer.delete()
             
             data=[]
             for i in Ride.objects.filter(~Q(owner=request.user), 
