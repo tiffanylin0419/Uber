@@ -1,0 +1,12 @@
+Non-driver cannot see webpage with (driver only) next to it, it will jump back to the same home page
+Driver search ride need to calculate the number of passenger+number of sharer
+Rider search ride, only display the ride with a total number of passenger<8
+Driver search and rider search cannot see the rides where they are the owner or the sharer
+Owner delete ride: kick out the sharers
+Driver delete ride: the ride becomes open again
+Rider request ride and update ride, 1<=number of passenger<=8
+Update ride or personal info choose from bar instead of typing so that it is limited to certain types
+Add logout and home button to every page
+A driver can choose to be a non driver, delete all of its ride
+Send email to rider and sharer when ride is confirmed
+Kick out sharer if the rider makes any modification to the ride
