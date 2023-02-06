@@ -1,7 +1,6 @@
 from django.urls import path
 
 from . import views
-#from .views import RequestView
 
 urlpatterns = [
     path('', views.index, name='index'),#delete
