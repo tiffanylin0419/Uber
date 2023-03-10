@@ -3,8 +3,6 @@ from django.forms import ModelForm
 from .models import Ride,DriverInfo, VEHICLES,NUM
 from datetime import datetime, timedelta, tzinfo
 
-
-
 from django.contrib.auth.models import User
 
 class DateTimeInput(forms.DateTimeInput):
