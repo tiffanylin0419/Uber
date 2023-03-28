@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-e-#rb#9o+#+*p=#+7o2m6ziz_0c$cxys8o7)7m8ym)d0%qixfc
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['web','vcm-31009.vm.duke.edu','127.0.0.1']
+ALLOWED_HOSTS = ['web','vcm-30969.vm.duke.edu','127.0.0.1']
 
 
 # Application definition
@@ -81,10 +81,10 @@ WSGI_APPLICATION = 'firsthomework.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': 'db',
+        'NAME': 'uber_share',
+        'USER': 'tl330',
+        'PASSWORD': 'tl330',
+        'HOST': '127.0.0.1',
         'PORT': '5432',
     }
 }
