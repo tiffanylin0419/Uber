@@ -10,3 +10,5 @@ Add logout and home button to every page
 A driver can choose to be a non driver, delete all of its ride
 Send email to rider and sharer when ride is confirmed
 Kick out sharer if the rider makes any modification to the ride
+Rider should search arrival_time in a range based on both date and time
+Sharer join the ride: add the current passengers to the ride's total passengers

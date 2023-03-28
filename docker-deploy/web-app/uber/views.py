@@ -2,17 +2,12 @@ from . import forms
 from .models import Ride,DriverInfo,Sharer
 from django.shortcuts import render
 from django.utils import timezone
-from django.db.models import F,Sum
 from django.db.models import Q
-from django.db.models import Count
 from django.core.mail import send_mail
 # Create your views here.
 
 #add
 from django.http import HttpResponse
-
-from django.urls import reverse_lazy
-from django.views import generic
 
 def index(request):#delete
     return HttpResponse("Hello, world. You're at the polls index.")

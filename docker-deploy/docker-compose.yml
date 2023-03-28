@@ -4,9 +4,9 @@ services:
   db:
       image: postgres
       environment:
-        - POSTGRES_DB=uber
-        - POSTGRES_USER=tl330
-        - POSTGRES_PASSWORD=tl330
+        - POSTGRES_DB=postgres
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=postgres
       volumes:
             - data-volume:/var/lib/postgresql/data
   web-init:
